@@ -1,0 +1,42 @@
+<div style="max-width:860px; margin:0 auto; font-family:'Pretendard','Apple SD Gothic Neo','맑은 고딕',sans-serif; color:#0c0c0b; line-height:1.6;">
+
+{% if mode == 'placeholder' %}
+  <div style="border:1px solid #ccc; background:#f7f7f7; padding:14px 18px; font-size:13px; border-radius:8px; margin-bottom:24px;">
+    [작업용 안내 · 업로드 전 이 박스는 삭제하세요]<br>
+    · 빨간 점선 박스(📷)는 사진 자리입니다.
+  </div>
+{% endif %}
+
+  <div style="padding:48px 24px; text-align:center;">
+    <h1 style="font-size:30px; font-weight:800; margin:0 0 14px;">{{ product_title }}</h1>
+    <p style="display:inline-block; background:#2c2c2c; color:#edecd1; padding:12px 28px; border-radius:999px; font-size:17px; margin:0;">
+      {{ hook_line }}
+    </p>
+  </div>
+
+{% for slot in image_slots %}
+  {% if mode == 'placeholder' %}
+  <div style="border:2px dashed #e60012; background:#fdf4f4; color:#e60012; text-align:center; padding:44px 16px; font-size:15px; font-weight:700; border-radius:8px; margin:16px 0;">
+    📷 사진 {{ slot.seq }} · {{ slot.role }}<br>
+    <span style="font-size:13px; font-weight:400; color:#a33;">{{ slot.filename }}</span>
+  </div>
+  {% else %}
+  <div style="text-align:center; margin:16px 0;">
+    <img src="../naver-store-images/{{ slot.filename }}" alt="{{ slot.caption }}" style="max-width:100%; height:auto; border-radius:8px;" />
+    <p style="font-size:13px; color:#666; margin-top:8px;">{{ slot.caption }}</p>
+  </div>
+  {% endif %}
+{% endfor %}
+
+  <div style="padding:64px 24px; text-align:center;">
+    <h2 style="font-size:28px; font-weight:800; margin:0 0 16px;">{{ section_title }}</h2>
+    <p style="font-size:17px; color:#333; line-height:1.6; margin:0;">{{ section_body | safe }}</p>
+  </div>
+
+{% if risk_disclaimer %}
+  <div style="border:1px solid #f0ad4e; background:#fff8e6; padding:12px 16px; font-size:13px; border-radius:8px; margin:24px 0;">
+    ⚠️ {{ risk_disclaimer }}
+  </div>
+{% endif %}
+
+</div>
