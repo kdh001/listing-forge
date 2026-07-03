@@ -1,7 +1,7 @@
 ---
 progress_pct: 28
-updated: "2026-07-03T14:22:19+09:00"
-last_commit: "a39baf2"
+updated: "2026-07-03T21:21:53+09:00"
+last_commit: "7517953"
 sync_source: project-progress
 ---
 # listing-forge — 진척도
@@ -14,8 +14,8 @@ sync_source: project-progress
 | 항목 | 값 |
 |------|-----|
 | **종합 진행률** | **28%** |
-| 마지막 커밋 | `a39baf2` |
-| 갱신 시각 | 2026-07-03 14:22 KST |
+| 마지막 커밋 | `7517953` |
+| 갱신 시각 | 2026-07-03 21:21 KST |
 | 신호 | PLAN Phase 1/5 완료 |
 
 > vault `scripts/project-progress/` · `git push` 직전 pre-push 훅 갱신 · `progress_pct` frontmatter 동기화
