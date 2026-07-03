@@ -16,6 +16,8 @@ ingest:
   manual_drop_dir: "source/manual_drop"
   max_gallery_images: 8
   max_detail_images: 20
+  detail_min_bytes: 150000
+  thumbnail_max_bytes: 100000
 
 gemini:
   text_model: "gemini-2.0-flash"
@@ -29,6 +31,26 @@ image_tiers:
 naming:
   # clip-lens-sample CSV 호환: 01_대표_{slug}_{desc}_{keyword}.jpg
   pattern: "{seq:02d}_{role}_{slug}_{desc}_{keyword}.jpg"
+
+coupang:
+  main_image:
+    require_white_bg: true
+    white_bg_hex: "#FFFFFF"
+    # 1차: 로컬 세그멘테이션(rembg) → 2차: Gemini 이미지 편집 폴백
+    bg_removal_model: "rembg:u2net"
+    fallback: "gemini_image_edit"
+    # 이미지 테두리 샘플링 시 흰색으로 판정할 최소 비율
+    min_white_ratio: 0.92
+  min_additional_images: 5
+  ranking_score:
+    pass_threshold: 75
+    weights:
+      ota_fill_ad_ready: 20   # 수동 확인 체크리스트 (자동 판정 불가)
+      rec_attr_filled: 20     # coupang_attributes.csv 필수 속성 채움 여부
+      tags_count_20: 20       # coupang_tags.json 개수 == 20
+      image_count_min: 20     # 대표 1 + 추가 5 이상
+      brand_registered_bonus: 20  # keyword-scout listing.brand_registered: true
+    title_max_chars: 20
 
 risk_disclaimers:
   kc-medical: "본 상품은 의료기기·KC 인증 여부를 판매자가 반드시 확인해야 합니다."

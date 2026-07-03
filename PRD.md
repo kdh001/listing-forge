@@ -65,6 +65,8 @@ flowchart LR
 | F6 | 쿠팡 JPG + `naver_images_meta.csv` |
 | F7 | keyword-scout `--keyword-yaml` 연동 |
 | F8 | `manifest.json` + disclaimer |
+| F9 | **쿠팡 대표이미지 흰 배경 정규화** — 크롤링 원본이 흰 배경이 아니면 제품은 그대로 두고 배경만 순백(#FFFFFF)으로 치환 |
+| F10 | **쿠팡 상위노출 점수 체크리스트** — 75점 미만이면 업로드 전 경고 (§9 참고) |
 
 ### Won't (v1)
 
@@ -99,3 +101,22 @@ flowchart LR
 - [ ] Phase 1: PublicParser + Tier A + placeholder HTML  
 - [ ] clip-lens parity URL E2E  
 - [ ] Tier B Gemini + 카피 생성  
+
+## 9. 쿠팡 상위노출 점수제 (F10)
+
+> 정본 로직: `ARCHITECTURE.md` §2 CoupangScoreChecker · 가중치: `config/listing.yaml` → `coupang.ranking_score`
+
+**최소 통과 기준: 75점 이상.** `build` 종료 시 `coupang_score_report.md`로 자동 채점하고, 75점 미만이면 콘솔·리포트에 경고를 남긴다 (등록 자체를 막지는 않음 — 최종 판단은 판매자).
+
+| 항목 | 배점 | listing-forge 처리 방식 |
+|---|:---:|---|
+| OTA FILL 광고 노출 가능 컨텐츠 등록 | 20 | 자동 판정 불가 → **체크리스트 항목**으로 리포트에 표시, 수동 확인 유도 |
+| Rec.Attr 상품속성 채우기 | 20 | `coupang_attributes.csv` 필수 속성 채움 여부로 자동 계산 |
+| 태그 20개 채우기 | 20 | `coupang_tags.json` 개수(=20) 자동 계산 |
+| 대표이미지 1개 + 추가이미지 최소 5개 | 20 | `coupang/` 폴더 파일 수 자동 계산 |
+| 브랜드 제작 (가산점) | 20 | `keyword-scout` YAML `listing.brand_registered: true` 시 가산 |
+| 20자 내외 상품명(핵심 키워드 포함) | 참고 | `coupang_title.txt` 생성 시 길이 제약(≤ `title_max_chars`) 강제 |
+| 품질 높은 이미지 | 참고 | F3(Tier A/B) + F9(흰 배경) 결과물로 커버 |
+| 메타태그 설정 | 참고 | 태그 20개 + `naver_images_meta.csv`의 검색키워드 컬럼으로 커버 |
+
+> 참고 항목(배점 없음)은 브레이크다운 표에는 없지만 위 4개 필수 배점 항목 품질에 직접 영향을 준다.

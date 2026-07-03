@@ -9,6 +9,8 @@
 3. **Tier A/B** — 제품컷은 텍스트 추가 금지 · 설명컷만 Gemini 한글화
 4. **scout risk** — `kc-medical` 등이면 자동 등록 초안 생성 금지, 경고만
 5. **한국어 주석** — Python 한 줄마다
+6. **쿠팡 대표이미지 흰 배경 필수** — 제품은 그대로 두고 배경만 순백 치환 (rembg → 실패 시 Gemini 폴백); 단계 skip 금지 (원칙 2와 동일)
+7. **쿠팡 상위노출 75점 기준** — `coupang_score_report.md`로 자동 채점, 미달 시 **경고만** (등록 차단 금지, 원칙 4와 동일 톤)
 
 ## Git
 
@@ -26,3 +28,7 @@ python scripts/build_listing.py build \
 ## Parity 테스트 URL
 
 `config/listing.yaml` → `reference.clip_lens_sample.parity_test_url`
+
+## 쿠팡 규칙 정본
+
+`config/listing.yaml` → `coupang.main_image`(흰 배경) · `coupang.ranking_score`(75점 가중치)
