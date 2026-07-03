@@ -1,7 +1,7 @@
 ---
 progress_pct: 28
-updated: "2026-07-03T14:22:05+09:00"
-last_commit: "7ad2aef"
+updated: "2026-07-03T14:22:19+09:00"
+last_commit: "a39baf2"
 sync_source: project-progress
 ---
 # listing-forge — 진척도
@@ -14,7 +14,7 @@ sync_source: project-progress
 | 항목 | 값 |
 |------|-----|
 | **종합 진행률** | **28%** |
-| 마지막 커밋 | `7ad2aef` |
+| 마지막 커밋 | `a39baf2` |
 | 갱신 시각 | 2026-07-03 14:22 KST |
 | 신호 | PLAN Phase 1/5 완료 |
 
