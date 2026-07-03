@@ -1,9 +1,9 @@
 ---
-progress_pct: 85
-updated: "2026-07-03"
+progress_pct: 28
+updated: "2026-07-03T14:21:41+09:00"
+last_commit: "242bce1"
 sync_source: project-progress
 ---
-
 # listing-forge — 진척도
 
 > Phase 1~3 구현 완료 · pytest 17 passed · Phase 4(웹 UI) 보류
@@ -13,10 +13,12 @@ sync_source: project-progress
 
 | 항목 | 값 |
 |------|-----|
-| **종합 진행률** | **85%** |
-| 단계 | Phase 3 완료 · 웹 UI 보류 |
+| **종합 진행률** | **28%** |
+| 마지막 커밋 | `242bce1` |
+| 갱신 시각 | 2026-07-03 14:21 KST |
+| 신호 | PLAN Phase 1/5 완료 |
 
-> vault `scripts/project-progress/`
+> vault `scripts/project-progress/` · `git push` 직전 pre-push 훅 갱신 · `progress_pct` frontmatter 동기화
 <!-- progress-auto:end -->
 
 ## 수동 메모
