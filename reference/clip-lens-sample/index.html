@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3-in-1 유니버셜 클립 렌즈 | 상세페이지</title>
+  <meta name="description" content="클립 하나로 와이드, 피쉬아이, 매크로 촬영까지. 3-in-1 유니버셜 클립 렌즈 상세페이지">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+  /* ================================================================
+     860px 상세페이지 제작 가이드
+     · 폰트: Pretendard
+     · 자간: -40  →  letter-spacing: -0.04em
+     · 글자폭: 96%  →  자간 -40과 함께 적용 (웹 레이아웃 안정성 우선)
+     · 좌우 여백: 60px  ·  상하 여백: 150~200px
+     · pt→px 환산 (860px 기준): px = pt × 0.4
+       각주 20pt=12px | 본문 40pt=18px | 서브 50pt=22px | 메인 70pt=30px
+     · 행간: 일반 편집물보다 촘촘하게
+  ================================================================ */
+  :root {
+    --white: #ffffff;
+    --black: #000000;
+    --text: #0c0c0b;
+    --red: #e60012;
+    --red-light: #f83838;
+    --gold: #ffd700;
+    --gray-bg: #f2f2f2;
+    --gray-border: #e0e0e0;
+    --gray-text: #333333;
+    --badge-bg: #2c2c2c;
+    --badge-text: #edecd1;
+    --blue-overlay: rgba(0, 188, 212, 0.35);
+    --page-width: 860px;
+    --pad-x: 60px;
+    --pad-y: 175px;
+    --tracking: -0.04em;
+    --font-footnote: 12px;   /* 각주 20pt */
+    --font-body-min: 16px;   /* 본문 최소 35pt */
+    --font-body: 18px;       /* 본문 40pt (추천) */
+    --font-sub: 22px;        /* 서브카피 50pt */
+    --font-main: 30px;       /* 메인카피 70pt */
+    --font-hero: 34px;       /* 히어로 메인카피 80pt */
+    --lh-body: 1.45;
+    --lh-title: 1.28;
+    --radius-pill: 999px;
+    --radius-box: 24px;
+  }
+
+  /* ===== 기본 리셋 ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: var(--font-body);
+    background: var(--gray-bg);
+    color: var(--text);
+    line-height: var(--lh-body);
+    letter-spacing: var(--tracking);
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow-x: auto;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== 상세페이지 래퍼 (860px 고정) ===== */
+  .detail-page {
+    width: 860px;
+    min-width: 860px;
+    margin: 0 auto;
+    background: var(--white);
+    overflow: hidden;
+    letter-spacing: var(--tracking);
+  }
+
+  /* 글자폭 96% — 웹에서는 자간 -40과 함께 적용 (scaleX는 레이아웃 깨짐 방지를 위해 생략) */
+
+  /* ===== 공통: 섹션 타이틀 블록 ===== */
+  .text-block {
+    padding: var(--pad-y) var(--pad-x);
+    text-align: center;
+  }
+  .check-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 20px;
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red);
+    font-size: var(--font-body);
+    font-weight: 700;
+  }
+  .section-title {
+    font-size: var(--font-main);
+    font-weight: 800;
+    color: var(--black);
+    line-height: var(--lh-title);
+    margin-bottom: 16px;
+    letter-spacing: var(--tracking);
+  }
+  .section-title .red { color: var(--red); }
+  .section-desc {
+    font-size: var(--font-body);
+    color: var(--gray-text);
+    line-height: var(--lh-body);
+    max-width: 100%;
+    margin: 0 auto;
+    letter-spacing: var(--tracking);
+  }
+  .section-desc strong {
+    color: var(--black);
+    font-weight: 700;
+    font-size: var(--font-body);
+  }
+  .section-desc .red {
+    color: var(--red);
+    font-weight: 700;
+    font-size: var(--font-body);
+  }
+
+  /* ===== HERO: 풀와이드 이미지 + 오버레이 텍스트 ===== */
+  .hero {
+    position: relative;
+    width: 100%;
+  }
+  .hero img {
+    width: 860px;
+    height: auto;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 8%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
+  }
+  .hero-title {
+    font-size: var(--font-hero);
+    font-weight: 800;
+    color: var(--white);
+    text-align: center;
+    line-height: var(--lh-title);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    padding: 0 var(--pad-x);
+    margin-bottom: 16px;
+    letter-spacing: var(--tracking);
+  }
+  .hero-badge {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    padding: 12px 36px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-sub);
+    font-weight: 500;
+    letter-spacing: var(--tracking);
+  }
+
+  /* ===== 풀와이드 이미지 섹션 ===== */
+  .full-image {
+    width: 100%;
+    position: relative;
+  }
+  .full-image img {
+    width: 860px;
+    display: block;
+  }
+  .image-overlay-tag {
+    position: absolute;
+    background: var(--blue-overlay);
+    color: var(--white);
+    font-size: 50px;
+    font-weight: 900;
+    padding: 16px 32px;
+    border-radius: var(--radius-pill);
+    letter-spacing: var(--tracking);
+  }
+  .image-overlay-tag.gold {
+    background: transparent;
+    color: var(--gold);
+    font-size: 74px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.2);
+    font-style: normal;
+    font-weight: 900;
+    transform: rotate(-8deg);
+  }
+  .photo-caption {
+    padding: 16px var(--pad-x) var(--pad-y);
+    font-size: var(--font-footnote);
+    color: var(--gray-text);
+    text-align: center;
+    line-height: var(--lh-body);
+    letter-spacing: var(--tracking);
+  }
+  .photo-caption + .full-image,
+  .full-image + .photo-caption {
+    margin-top: 0;
+  }
+
+  /* ===== 구분선 ===== */
+  .divider {
+    height: 1px;
+    background: var(--gray-border);
+    margin: 0;
+  }
+
+  /* ===== 매크로 하이라이트 박스 ===== */
+  .macro-box {
+    margin: 0 var(--pad-x) var(--pad-y);
+    padding: 40px 32px;
+    background: var(--gray-bg);
+    border-left: 4px solid var(--red);
+    border-radius: var(--radius-box);
+    text-align: center;
+    letter-spacing: var(--tracking);
+  }
+  .macro-box .label {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    font-size: var(--font-body);
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 16px;
+  }
+  .macro-box h3 {
+    font-size: var(--font-sub);
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: var(--lh-title);
+  }
+  .macro-box p {
+    font-size: var(--font-body);
+    color: var(--gray-text);
+    line-height: var(--lh-body);
+  }
+  .macro-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .macro-steps span {
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
+    font-size: var(--font-body);
+    font-weight: 500;
+  }
+
+  /* ===== 사용법 스텝 ===== */
+  .howto-list {
+    list-style: none;
+    padding: 0 var(--pad-x) var(--pad-y);
+    text-align: center;
+    letter-spacing: var(--tracking);
+  }
+  .howto-list li {
+    margin-bottom: 24px;
+  }
+  .howto-list .step-num {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    background: var(--red);
+    color: var(--white);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: var(--font-body);
+    margin-bottom: 8px;
+  }
+  .howto-list h4 {
+    font-size: var(--font-sub);
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: var(--lh-title);
+  }
+  .howto-list p {
+    font-size: var(--font-body);
+    color: var(--gray-text);
+    line-height: var(--lh-body);
+  }
+
+  /* ===== 컬러 옵션 ===== */
+  .color-options {
+    display: flex;
+    gap: 16px;
+    padding: 0 var(--pad-x) var(--pad-y);
+    justify-content: center;
+  }
+  .color-options figure {
+    flex: 1;
+    margin: 0;
+  }
+  .color-options img {
+    border-radius: var(--radius-box);
+    overflow: hidden;
+  }
+  .color-options figcaption {
+    margin-top: 12px;
+    text-align: center;
+    font-size: var(--font-body);
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: var(--tracking);
+  }
+
+  /* ===== 구성품 표 ===== */
+  .spec-note {
+    padding: 0 var(--pad-x) 12px;
+    font-size: var(--font-footnote);
+    color: var(--gray-text);
+    text-align: center;
+    letter-spacing: var(--tracking);
+    line-height: var(--lh-body);
+  }
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-body);
+    letter-spacing: var(--tracking);
+  }
+  .spec-table th,
+  .spec-table td {
+    padding: 14px var(--pad-x);
+    border-bottom: 1px solid var(--gray-border);
+    text-align: left;
+    vertical-align: middle;
+    line-height: var(--lh-body);
+  }
+  .spec-table th {
+    background: var(--gray-bg);
+    font-weight: 700;
+    font-size: var(--font-body);
+    color: var(--black);
+    width: 28%;
+    white-space: nowrap;
+  }
+  .spec-table td {
+    background: var(--white);
+    color: var(--gray-text);
+  }
+  .spec-header {
+    padding: var(--pad-y) var(--pad-x) 16px;
+    font-size: var(--font-main);
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: var(--tracking);
+    line-height: var(--lh-title);
+  }
+
+  /* ===== 상품정보 제공고시 ===== */
+  .product-info {
+    padding: 0 0 var(--pad-y);
+  }
+  .product-info .spec-header {
+    border-top: 1px solid var(--gray-border);
+    padding-top: var(--pad-y);
+  }
+  .product-info .spec-table th {
+    width: 22%;
+    font-size: var(--font-body);
+    padding: 12px var(--pad-x);
+  }
+  .product-info .spec-table td {
+    font-size: var(--font-body);
+    padding: 12px var(--pad-x);
+  }
+
+  /* ===== 아웃트로 CTA ===== */
+  .outro {
+    padding: var(--pad-y) var(--pad-x);
+    text-align: center;
+    background: var(--gray-bg);
+    letter-spacing: var(--tracking);
+  }
+  .outro h2 {
+    font-size: var(--font-main);
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: var(--lh-title);
+  }
+  .outro p {
+    font-size: var(--font-body);
+    color: var(--gray-text);
+    margin-bottom: 8px;
+    line-height: var(--lh-body);
+  }
+  .notice {
+    margin-top: 24px;
+    padding: 20px 28px;
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-box);
+    text-align: left;
+    font-size: var(--font-footnote);
+    color: var(--gray-text);
+    line-height: var(--lh-body);
+  }
+  .notice strong {
+    display: block;
+    color: var(--black);
+    margin-bottom: 8px;
+    font-size: var(--font-body);
+    font-weight: 700;
+  }
+
+  </style>
+</head>
+<body>
+
+<div class="detail-page">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <img src="assets/images/imgheromain.png" alt="아이폰에 장착된 3-in-1 유니버셜 클립 렌즈 대표 이미지">
+    <div class="hero-overlay">
+      <h1 class="hero-title">3-in-1<br>유니버셜<br>클립 렌즈</h1>
+      <div class="hero-badge">클립 렌즈로 스마트폰 카메라의 한계를 넘어서다.</div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 1: Hooking ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title">스마트폰 카메라,<br>이런 불편함 없으셨나요?</h2>
+    <p class="section-desc">
+      풍경을 한눈에 담고 싶은데 화면이 너무 답답하셨나요?<br>
+      가까이서 선명하게 찍고 싶은데 초점이 자꾸 흐려지나요?<br>
+      <strong>고가의 장비 대신, 지금 당신의 스마트폰 카메라를 업그레이드하세요.</strong>
+    </p>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/IMG_2024.JPG" alt="유니버셜 클립 렌즈 패키지">
+  </div>
+
+  <!-- ===== STEP 2: Solution ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title">언제 어디서나 찰칵!<br><span class="red">3-in-1</span> 유니버셜 클립 렌즈</h2>
+    <p class="section-desc">
+      복잡한 장비 없이 <strong>클립으로 찝기만 하면</strong> 일상이 작품이 됩니다.<br>
+      아이폰, 갤럭시, 태블릿, 노트북까지 <span class="red">기종 불문</span> 높은 호환성.<br>
+      와이드, 피쉬아이, 매크로까지 <strong>렌즈 세트 하나로 종결.</strong><br>
+      전용 파우치와 렌즈 캡으로 주머니 속에 안전하고 콤팩트하게!
+    </p>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/KR_overview_3lens.png" alt="클립, 파우치, 3가지 렌즈로 구성된 스마트폰 클립형 렌즈 구성 한눈에 보기">
+  </div>
+  <p class="photo-caption">클립 하나 · 렌즈 3종(어안·광각·접사) · 전용 파우치까지 — 휴대성과 확장성을 한 번에.</p>
+
+  <div class="full-image">
+    <img src="assets/images/KR_3in1_lifestyle.jpg" alt="스마트폰용 3 in 1 어안·광각·접사 렌즈 실사용 및 제품 컷">
+  </div>
+  <p class="photo-caption">150° 넓은 시야각으로 더 넓고 특별한 장면을 — 일상의 카페부터 거리까지 손쉽게 담아내세요.</p>
+
+  <div class="full-image">
+    <img src="assets/images/IMG_clip_attach_h.jpg" alt="스마트폰 카메라에 클립 렌즈 장착 모습">
+    <span class="image-overlay-tag gold" style="bottom:12%; right:8%;">3-in-1</span>
+  </div>
+  <p class="photo-caption">아이폰·갤럭시 등 트리플 카메라에도 메인 렌즈에 맞춰 간편하게 장착됩니다.</p>
+
+  <div class="full-image" style="margin-top: 24px;">
+    <img src="assets/images/IMG_2023.JPG" alt="골드 컬러 클립 렌즈 제품">
+  </div>
+
+  <!-- ===== STEP 3-1: Wide ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title"><span class="red">0.67X</span> 와이드 렌즈</h2>
+    <p class="section-desc">
+      시야각을 넓혀주어 시원하고 웅장한 느낌을 줍니다.<br>
+      광활한 자연 풍경, 단체 사진, 좁은 실내 인테리어 촬영에 최적입니다.
+    </p>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/AI_wide_cafe_group.png" alt="좁은 카페 실내에서 와이드 렌즈로 단체 사진 촬영하는 상황">
+    <span class="image-overlay-tag" style="top:8%; left:6%;">0.67X WIDE</span>
+  </div>
+  <p class="photo-caption">좁은 실내에서도 모두가 한 프레임에 — 와이드 렌즈로 단체 사진·인테리어 촬영에 활용해 보세요.</p>
+
+  <!-- ===== STEP 3-2: Fisheye ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title"><span class="red">180°</span> 피쉬아이 렌즈</h2>
+    <p class="section-desc">
+      물고기의 눈으로 보는 듯한 중심부가 볼록한 <span class="red">180도 왜곡 효과</span>를 줍니다.<br>
+      반려동물의 귀여운 '짱구 코' 샷, 독특하고 힙한 스트리트 사진 촬영 시 추천합니다.
+    </p>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/KR_fisheye_sample.jpg" alt="어안 렌즈 제품 컷과 고양이·강아지 어안 촬영 예시">
+  </div>
+  <p class="photo-caption">어안(피쉬아이) 렌즈 실제 촬영 예시 — 중심부가 볼록하게 강조되는 180° 왜곡으로 개성 있는 컷을 완성하세요.</p>
+
+  <div class="full-image">
+    <img src="assets/images/AI_fisheye_puppy.png" alt="피쉬아이 렌즈로 촬영한 반려동물 코 클로즈업 예시">
+    <span class="image-overlay-tag gold" style="bottom:12%; left:8%;">180°</span>
+  </div>
+  <p class="photo-caption">반려동물 코를 가까이 — 피쉬아이 렌즈의 볼록한 왜곡으로 귀여운 '짱구 코' 샷을 완성해 보세요.</p>
+
+  <div class="full-image">
+    <img src="assets/images/AI_fisheye_street.png" alt="피쉬아이 렌즈로 촬영한 힙한 도시 스트리트 사진 예시">
+    <span class="image-overlay-tag gold" style="bottom:12%; right:8%;">180°</span>
+  </div>
+  <p class="photo-caption">도심 거리도 피쉬아이 하나로 — 건물과 하늘이 휘어 드는 힙한 스트리트 감성을 연출해 보세요.</p>
+
+  <div class="full-image">
+    <img src="assets/images/IMG_2032.JPG" alt="피쉬아이 렌즈 실제 촬영 예시">
+    <span class="image-overlay-tag gold" style="bottom:15%; left:10%;">180°</span>
+  </div>
+  <p class="photo-caption">피쉬아이 렌즈로 촬영한 실제 사진 — 볼록한 왜곡 효과로 일상이 작품이 됩니다.</p>
+
+  <div class="full-image" style="margin-top: 24px;">
+    <img src="assets/images/IMG_2036.JPG" alt="피쉬아이 렌즈 촬영 예시 2">
+  </div>
+  <p class="photo-caption">※ 주변부 비네팅(어두운 테두리)이 보일 경우, 스마트폰 줌을 1.1x~1.2x로 당기면 깔끔하게 보정됩니다.</p>
+
+  <!-- ===== STEP 3-3: Macro (핵심) ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title">숨겨진 <span class="red">3번째</span> 기능<br>매크로 렌즈</h2>
+    <p class="section-desc">
+      렌즈가 2개인 줄 아셨나요? 본 제품은 <span class="red">3-in-1 제품</span>입니다.<br>
+      와이드 렌즈 상단을 시계 반대 방향으로 돌려 분리하면<br>
+      하단에 숨겨진 초접사 <strong>'매크로 렌즈'</strong>가 나타납니다!
+    </p>
+  </div>
+
+  <div class="macro-box">
+    <span class="label">구매 전 꼭 확인하세요</span>
+    <h3>와이드 렌즈를 분리하면 매크로 렌즈가 나옵니다</h3>
+    <p>꽃수술, 곤충, 지폐의 미세 인쇄, 주얼리(반지/귀걸이) 접사 촬영에 최적.<br>눈으로 보기 힘든 섬세한 질감까지 선명하게 포착합니다.</p>
+    <div class="macro-steps">
+      <span>① 골드 링을 잡는다</span>
+      <span>② 반시계 방향으로 돌린다</span>
+      <span>③ 매크로 렌즈 분리</span>
+      <span>④ 클립에 결합 후 촬영</span>
+    </div>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/KR_separation_diagram.jpg" alt="접사 렌즈와 와이드 렌즈가 결합된 구조와 분리 방법 다이어그램">
+  </div>
+  <p class="photo-caption">접사 + 와이드 렌즈는 결합형 구조 — 돌려서 분리하면 와이드(광각)와 접사를 각각 사용할 수 있습니다.</p>
+
+  <div class="full-image">
+    <img src="assets/images/KR_macro_sample.jpg" alt="접사 렌즈 제품 컷과 꽃 수술·눈송이 접사 촬영 예시">
+  </div>
+  <p class="photo-caption">접사(매크로) 렌즈 실제 촬영 예시 — 꽃가루, 눈 결정처럼 눈으로 보기 힘든 디테일까지 선명하게.</p>
+
+  <div class="full-image">
+    <img src="assets/images/AI_macro_flower.png" alt="매크로 렌즈로 촬영한 꽃 수술 클로즈업 예시">
+  </div>
+  <p class="photo-caption">매크로 렌즈로 꽃 수술의 섬세한 질감과 꽃가루까지 선명하게 포착해 보세요.</p>
+
+  <div class="full-image">
+    <img src="assets/images/IMG_2027.JPG" alt="와이드+매크로 분리 구조">
+  </div>
+
+  <!-- ===== 컬러 옵션 ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title">취향대로 고르는<br><span class="red">3가지 컬러</span></h2>
+    <p class="section-desc">
+      동일한 3-in-1 렌즈 구성, 컬러만 골라보세요.<br>
+      <strong>골드 · 레드 · 블루</strong> 중 스마트폰과 가장 잘 어울리는 색상으로.
+    </p>
+  </div>
+
+  <div class="color-options">
+    <figure>
+      <img src="assets/images/KR_color_gold.jpg" alt="골드 컬러 3-in-1 클립 렌즈">
+    </figure>
+    <figure>
+      <img src="assets/images/KR_color_red.jpg" alt="레드 컬러 3-in-1 클립 렌즈">
+    </figure>
+    <figure>
+      <img src="assets/images/KR_color_blue.jpg" alt="블루 컬러 3-in-1 클립 렌즈">
+    </figure>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== STEP 4: 사용법 & 구성품 ===== -->
+  <div class="text-block">
+    <div class="check-icon">✓</div>
+    <h2 class="section-title">사용법 &amp; 구성품 안내</h2>
+    <p class="section-desc">
+      간단한 3단계로 바로 촬영을 시작하세요.
+    </p>
+  </div>
+
+  <div class="full-image">
+    <img src="assets/images/KR_howto_4step.jpg" alt="사용 방법 4단계 — 렌즈 결합, 조립 완료, 캡 분리, 스마트폰 장착">
+  </div>
+  <p class="photo-caption">① 렌즈를 유니버설 클립에 돌려 끼우기 → ② 조립 완료 → ③ 렌즈 캡 열기 → ④ 스마트폰 카메라에 클립으로 고정.</p>
+
+  <div class="full-image">
+    <img src="assets/images/imgclipattachv.png" alt="클립 렌즈 장착 방법 — 카메라 렌즈 중앙 맞춤">
+  </div>
+  <p class="photo-caption">스마트폰 카메라 렌즈 중앙과 클립 렌즈 중앙을 정확히 맞춰 찝어주세요.</p>
+
+  <ol class="howto-list">
+    <li>
+      <div class="step-num">1</div>
+      <h4>클립 장착</h4>
+      <p>스마트폰 카메라 렌즈 중앙과 클립 렌즈의 중앙을 잘 맞춰 찝어줍니다.</p>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <h4>렌즈 결합</h4>
+      <p>원하는 렌즈 효과에 맞게 렌즈를 결합합니다.<br>접사 촬영 시 와이드 렌즈를 분리하여 매크로 렌즈만 사용하세요.</p>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <h4>줌 조절 (선택)</h4>
+      <p>비네팅이 생길 경우 스마트폰 줌을 살짝(1.1x~1.2x) 당겨주시면 깔끔하게 촬영됩니다.</p>
+    </li>
+  </ol>
+
+  <div class="full-image">
+    <img src="assets/images/IMG_2025.JPG" alt="전체 구성품">
+  </div>
+
+  <p class="spec-note">※ 제품 구성은 아래 표를 참고해 주세요.</p>
+
+  <div class="spec-header">구성품 안내</div>
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>구성품</th>
+        <th>수량</th>
+        <th>용도</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>클립형 거치대</th>
+        <td>1개</td>
+        <td>스마트폰 / 태블릿 고정용</td>
+      </tr>
+      <tr>
+        <th>피쉬아이 렌즈 (180°)</th>
+        <td>1개</td>
+        <td>볼록한 왜곡 효과 촬영용</td>
+      </tr>
+      <tr>
+        <th>와이드 + 매크로 일체형</th>
+        <td>1개</td>
+        <td>광각 및 접사 촬영용 (분리 가능)</td>
+      </tr>
+      <tr>
+        <th>렌즈 보호 캡</th>
+        <td>2개</td>
+        <td>렌즈 스크래치 및 먼지 방지</td>
+      </tr>
+      <tr>
+        <th>마이크로파이버 파우치</th>
+        <td>1개</td>
+        <td>보관 및 휴대, 렌즈 클리너 겸용</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="full-image" style="margin-top: 32px;">
+    <img src="assets/images/IMG_2029.JPG" alt="클립 렌즈 상세">
+  </div>
+
+  <!-- ===== 상품정보 제공고시 ===== -->
+  <div class="product-info">
+    <div class="spec-header">상품정보 제공고시</div>
+    <table class="spec-table">
+      <tbody>
+        <tr>
+          <th>상품명</th>
+          <td>3-in-1 유니버셜 클립 렌즈</td>
+        </tr>
+        <tr>
+          <th>구성</th>
+          <td>클립 1개, 렌즈 2종(3기능), 캡 2개, 파우치 1개</td>
+        </tr>
+        <tr>
+          <th>호환 기기</th>
+          <td>아이폰, 갤럭시, HTC, 아이패드, 태블릿, 노트북 등</td>
+        </tr>
+        <tr>
+          <th>렌즈 종류</th>
+          <td>0.67X 와이드 / 180° 피쉬아이 / 매크로(접사)</td>
+        </tr>
+        <tr>
+          <th>재질</th>
+          <td>렌즈: 광학 유리 / 클립: ABS 플라스틱</td>
+        </tr>
+        <tr>
+          <th>제조국</th>
+          <td>중국</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="spec-note">※ 제품 제작 시마다 약간의 오차가 발생할 수 있습니다.</p>
+  </div>
+
+  <!-- ===== STEP 5: Outro ===== -->
+  <div class="outro">
+    <h2>오늘부터 당신의 일상도 작품이 됩니다.</h2>
+    <p>지금 클립 렌즈와 함께 가벼운 출사를 떠나보세요.</p>
+    <div class="notice">
+      <strong>⚠ 사용 시 주의사항</strong>
+      ※ 스마트폰 케이스가 너무 두꺼울 경우 초점이 흐려지거나 비네팅이 생길 수 있으니 케이스를 벗기고 사용하시는 것을 권장합니다.<br>
+      ※ 듀얼/트리플 카메라의 경우, 주로 사용하는 메인 카메라 렌즈 위치에 맞춰 클립을 장착해 주세요.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

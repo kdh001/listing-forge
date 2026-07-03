@@ -1,0 +1,39 @@
+# listing-forge 정본 설정
+
+keyword_scout:
+  root: "../keyword-scout"
+  keywords_glob: "keywords/*.yaml"
+
+output:
+  base_dir: "./output"
+  naver_max_width_px: 860
+  coupang_target_width_px: 1720
+  jpeg_quality: 92
+
+ingest:
+  # hybrid: public_parser → playwright → manual_drop
+  hybrid_order: [public_parser, playwright, manual_drop]
+  manual_drop_dir: "source/manual_drop"
+  max_gallery_images: 8
+  max_detail_images: 20
+
+gemini:
+  text_model: "gemini-2.0-flash"
+  image_model: "gemini-2.0-flash-preview-image-generation"
+  max_tier_b_images: 8
+
+image_tiers:
+  # 텍스트 영역 비율(추정) 이상이면 Tier B
+  text_area_ratio_tier_b: 0.05
+
+naming:
+  # clip-lens-sample CSV 호환: 01_대표_{slug}_{desc}_{keyword}.jpg
+  pattern: "{seq:02d}_{role}_{slug}_{desc}_{keyword}.jpg"
+
+risk_disclaimers:
+  kc-medical: "본 상품은 의료기기·KC 인증 여부를 판매자가 반드시 확인해야 합니다."
+  fad: "단기 유행성 키워드일 수 있습니다. 재고·그래프 추세를 별도 확인하세요."
+
+reference:
+  clip_lens_sample: "./reference/clip-lens-sample"
+  parity_test_url: "https://ko.aliexpress.com/item/1005009287952594.html"

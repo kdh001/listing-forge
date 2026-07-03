@@ -1,0 +1,31 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets
+.env.*
+**/secrets/
+playwright/.auth/
+
+# Pipeline output
+output/*
+!output/.gitkeep
+
+# Reference sample binaries (manifest·HTML·CSV는 추적)
+reference/clip-lens-sample/**/*.jpg
+reference/clip-lens-sample/**/*.jpeg
+reference/clip-lens-sample/**/*.png
+reference/clip-lens-sample/**/*.webp
+reference/clip-lens-sample/assets/
+reference/clip-lens-sample/aliexpress-images/01_gallery/
+reference/clip-lens-sample/aliexpress-images/02_detail_page/
+reference/clip-lens-sample/aliexpress-images/03_related_thumbnails/
+reference/clip-lens-sample/aliexpress-images/04_gallery_korean/
+reference/clip-lens-sample/aliexpress-images/05_detail_korean/
+reference/clip-lens-sample/naver-store-images/*.jpg
+reference/clip-lens-sample/reference/
