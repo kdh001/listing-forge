@@ -1,0 +1,54 @@
+{# 쿠팡·네이버 공통 상세 HTML — 네이버쇼핑 SEO 가이드(H00015) 반영 #}
+<div style="max-width:{{ max_width_px | default(860) }}px; margin:0 auto; font-family:'Pretendard','Apple SD Gothic Neo','맑은 고딕',sans-serif; color:#0c0c0b; line-height:1.6;">
+
+{% if mode == 'placeholder' %}
+  <div style="border:1px solid #ccc; background:#f7f7f7; padding:14px 18px; font-size:13px; border-radius:8px; margin-bottom:24px;">
+    [작업용 안내 · 업로드 전 이 박스는 삭제하세요]<br>
+    · 빨간 점선 박스(📷)는 사진 자리입니다. (권장 {{ image_min_px | default(500) }}px+ {{ image_format | default('JPG') }})<br>
+    · 네이버쇼핑 SEO: 상품명에 할인·배송·키워드 나열 금지 → 이벤트 필드 사용
+  </div>
+  {% if seo_checklist %}
+  <div style="border:1px solid #03c75a; background:#f0fff4; padding:12px 16px; font-size:12px; border-radius:8px; margin-bottom:20px;">
+    <strong>네이버쇼핑 업로드 체크 (SEO H00015)</strong>
+    <ul style="margin:8px 0 0; padding-left:18px;">
+    {% for item in seo_checklist %}
+      <li style="margin:4px 0;">{{ item }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+{% endif %}
+
+  <header style="padding:48px 24px; text-align:center;">
+    <h1 style="font-size:30px; font-weight:800; margin:0 0 14px;">{{ product_title }}</h1>
+    <p style="display:inline-block; background:#2c2c2c; color:#edecd1; padding:12px 28px; border-radius:999px; font-size:17px; margin:0;">
+      {{ hook_line }}
+    </p>
+  </header>
+
+{% for slot in image_slots %}
+  {% if mode == 'placeholder' %}
+  <div style="border:2px dashed #e60012; background:#fdf4f4; color:#e60012; text-align:center; padding:44px 16px; font-size:15px; font-weight:700; border-radius:8px; margin:16px 0;">
+    📷 사진 {{ slot.seq }} · {{ slot.role }}<br>
+    <span style="font-size:13px; font-weight:400; color:#a33;">{{ slot.filename }}</span>
+  </div>
+  {% else %}
+  <figure style="text-align:center; margin:16px 0;">
+    <img src="{{ image_base }}/{{ slot.filename }}" alt="{{ product_title }} {{ slot.caption }}" style="max-width:100%; height:auto; border-radius:8px;" loading="lazy" />
+    <figcaption style="font-size:13px; color:#666; margin-top:8px;">{{ slot.caption }}</figcaption>
+  </figure>
+  {% endif %}
+{% endfor %}
+
+  <section style="padding:64px 24px; text-align:center;">
+    <h2 style="font-size:28px; font-weight:800; margin:0 0 16px;">{{ section_title }}</h2>
+    <div style="font-size:17px; color:#333; line-height:1.6; margin:0;">{{ section_body | safe }}</div>
+  </section>
+
+{% if risk_disclaimer %}
+  <aside style="border:1px solid #f0ad4e; background:#fff8e6; padding:12px 16px; font-size:13px; border-radius:8px; margin:24px 0;">
+    ⚠️ {{ risk_disclaimer }}
+  </aside>
+{% endif %}
+
+</div>

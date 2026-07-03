@@ -1,4 +1,4 @@
-"""네이버 placeholder / final HTML 렌더링 (Jinja2)."""
+"""쿠팡·네이버 공통 상세 HTML 렌더링 (Jinja2 + 네이버 SEO)."""
 
 from __future__ import annotations
 
@@ -7,26 +7,40 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from src.render.seo_rules import NaverShoppingSeoRules
 
-class NaverRenderer:
-  """reference HTML 구조를 Jinja2로 렌더링한다."""
 
-  def __init__(self, root: Path) -> None:
+class DetailHtmlRenderer:
+  """reference HTML 구조 + 네이버쇼핑 SEO 가이드를 Jinja2로 렌더링한다."""
+
+  def __init__(self, root: Path, config: dict[str, Any] | None = None) -> None:
     self.root = root
+    self.config = config or {}
+    self.seo = NaverShoppingSeoRules(self.config)
     self.env = Environment(
       loader=FileSystemLoader(root / "templates"),
       autoescape=select_autoescape(["html", "xml"]),
     )
+    html_cfg = self.config.get("marketplace_detail_html", {})
+    self.template_name = html_cfg.get("template", "marketplace_detail.j2")
+    store = html_cfg.get("image_store_dir", "naver-store-images")
+    self.image_base = f"../{store}"
+
+  def _base_ctx(self, ctx: dict[str, Any]) -> dict[str, Any]:
+    """SEO 힌트·이미지 경로를 렌더 컨텍스트에 병합."""
+    merged = {**self.seo.html_render_hints(), **ctx}
+    merged["image_base"] = self.image_base
+    return merged
 
   def render_placeholder(self, ctx: dict[str, Any], image_slots: list[dict[str, str]]) -> str:
-    """점선 박스 placeholder HTML을 생성한다."""
-    tpl = self.env.get_template("naver_detail.j2")
-    return tpl.render(mode="placeholder", image_slots=image_slots, **ctx)
+    """점선 박스 placeholder HTML — SEO 체크리스트 포함."""
+    tpl = self.env.get_template(self.template_name)
+    return tpl.render(mode="placeholder", image_slots=image_slots, **self._base_ctx(ctx))
 
   def render_final(self, ctx: dict[str, Any], image_slots: list[dict[str, str]]) -> str:
-    """실제 img 태그가 들어간 final HTML을 생성한다."""
-    tpl = self.env.get_template("naver_detail.j2")
-    return tpl.render(mode="final", image_slots=image_slots, **ctx)
+    """실제 img 태그 final HTML — alt·figure 시맨틱."""
+    tpl = self.env.get_template(self.template_name)
+    return tpl.render(mode="final", image_slots=image_slots, **self._base_ctx(ctx))
 
   @staticmethod
   def default_image_slots(seed: str) -> list[dict[str, str]]:
@@ -38,3 +52,7 @@ class NaverRenderer:
       ("03", "구성", f"03_구성_{slug}_3가지렌즈_휴대폰렌즈.jpg", "구성 한눈에"),
     ]
     return [{"seq": r, "role": role, "filename": fn, "caption": cap} for r, role, fn, cap in roles]
+
+
+# 하위 호환 별칭
+NaverRenderer = DetailHtmlRenderer

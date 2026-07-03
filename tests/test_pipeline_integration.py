@@ -41,6 +41,11 @@ def test_build_with_manual_dir(root, keyword_yaml, tmp_path, sample_jpg, white_b
 
   assert (out / "naver" / "detail_placeholders.html").exists()
   assert (out / "naver" / "detail_final.html").exists()
+  assert (out / "coupang" / "detail_placeholders.html").exists()
+  assert (out / "coupang" / "detail_final.html").exists()
+  naver_html = (out / "naver" / "detail_final.html").read_text(encoding="utf-8")
+  coupang_html = (out / "coupang" / "detail_final.html").read_text(encoding="utf-8")
+  assert naver_html == coupang_html
   assert (out / "naver_images_meta.csv").exists()
   assert (out / "coupang_score_report.md").exists()
   assert len(list((out / "coupang").glob("*.jpg"))) >= 6

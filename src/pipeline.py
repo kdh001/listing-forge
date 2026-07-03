@@ -20,7 +20,7 @@ from src.render.coupang_attributes import CoupangAttributeFiller
 from src.render.coupang_jpeg import CoupangExporter
 from src.render.coupang_tags import CoupangTagGenerator
 from src.render.csv_meta import CsvMetaWriter
-from src.render.naver_html import NaverRenderer
+from src.render.naver_html import DetailHtmlRenderer
 from src.score.coupang_score import CoupangScoreChecker
 
 
@@ -97,6 +97,8 @@ class ListingPipeline:
     if platform in ("both", "coupang"):
       self._build_coupang(job, kw_ctx, copy_ctx, manifest, cfg, gemini)
 
+    self._build_detail_html(job, copy_ctx, kw_ctx, cfg, platform)
+
     (job / "README.txt").write_text(
       f"platform={platform}\nkeyword_yaml={keyword_yaml}\nseed={kw_ctx['seed']}\n",
       encoding="utf-8",
@@ -111,14 +113,13 @@ class ListingPipeline:
     manifest: dict[str, Any],
     cfg: dict[str, Any],
   ) -> None:
-    """네이버 HTML·CSV·store-images."""
+    """네이버 store-images·CSV (HTML은 _build_detail_html)."""
     naver_dir = job / "naver"
     store_dir = job / "naver-store-images"
     naver_dir.mkdir(parents=True, exist_ok=True)
     store_dir.mkdir(parents=True, exist_ok=True)
 
-    renderer = NaverRenderer(self.root)
-    slots = renderer.default_image_slots(kw_ctx["seed"])
+    slots = DetailHtmlRenderer.default_image_slots(kw_ctx["seed"])
     tier_a = TierAProcessor(cfg)
 
     file_sizes: dict[str, int] = {}
@@ -131,18 +132,42 @@ class ListingPipeline:
           tier_a.process_to_jpg(src, dest, target_width=int(cfg.get("output", {}).get("naver_max_width_px", 860)))
           file_sizes[slot["filename"]] = dest.stat().st_size
 
-    render_ctx = {**copy_ctx, "risk_disclaimer": copy_ctx.get("risk_disclaimer", "")}
-    naver_dir.joinpath("detail_placeholders.html").write_text(
-      renderer.render_placeholder(render_ctx, slots), encoding="utf-8"
-    )
-    naver_dir.joinpath("detail_final.html").write_text(
-      renderer.render_final(render_ctx, slots), encoding="utf-8"
-    )
-
     CsvMetaWriter().write(
       job / "naver_images_meta.csv",
       CsvMetaWriter().build_rows(slots, kw_ctx, file_sizes=file_sizes),
     )
+
+  def _build_detail_html(
+    self,
+    job: Path,
+    copy_ctx: dict[str, str],
+    kw_ctx: dict[str, Any],
+    cfg: dict[str, Any],
+    platform: str,
+  ) -> None:
+    """쿠팡·네이버 동일 상세 HTML — SEO 가이드 반영."""
+    html_cfg = cfg.get("marketplace_detail_html", {})
+    output_dirs: list[str] = list(html_cfg.get("output_dirs") or ["naver", "coupang"])
+
+    if platform == "naver":
+      targets = ["naver"]
+    elif platform == "coupang":
+      targets = ["coupang"]
+    else:
+      targets = output_dirs
+
+    renderer = DetailHtmlRenderer(self.root, cfg)
+    slots = renderer.default_image_slots(kw_ctx["seed"])
+    render_ctx = {**copy_ctx, "risk_disclaimer": copy_ctx.get("risk_disclaimer", "")}
+
+    placeholder = renderer.render_placeholder(render_ctx, slots)
+    final = renderer.render_final(render_ctx, slots)
+
+    for dirname in targets:
+      out_dir = job / dirname
+      out_dir.mkdir(parents=True, exist_ok=True)
+      out_dir.joinpath("detail_placeholders.html").write_text(placeholder, encoding="utf-8")
+      out_dir.joinpath("detail_final.html").write_text(final, encoding="utf-8")
 
   def _build_coupang(
     self,
