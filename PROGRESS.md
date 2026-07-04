@@ -1,7 +1,7 @@
 ---
 progress_pct: 28
-updated: "2026-07-04T21:58:01+09:00"
-last_commit: "12bcc7b"
+updated: "2026-07-04T21:58:06+09:00"
+last_commit: "ecb7075"
 sync_source: project-progress
 ---
 # listing-forge — 진척도
@@ -14,7 +14,7 @@ sync_source: project-progress
 | 항목 | 값 |
 |------|-----|
 | **종합 진행률** | **28%** |
-| 마지막 커밋 | `12bcc7b` |
+| 마지막 커밋 | `ecb7075` |
 | 갱신 시각 | 2026-07-04 21:58 KST |
 | 신호 | PLAN Phase 1/5 완료 |
 
