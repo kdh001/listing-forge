@@ -2,7 +2,7 @@
 
 ## 경로
 
-기본: `../keyword-scout` (`config/listing.yaml` · `KEYWORD_SCOUT_ROOT`)
+기본: iCloud `~/Library/Mobile Documents/com~apple~CloudDocs/Desktop/project/archive/keyword-scout` (`config/listing.yaml`)
 
 ## CLI
 

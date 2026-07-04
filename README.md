@@ -6,8 +6,8 @@
 
 | 프로젝트 | 역할 |
 |----------|------|
-| [keyword-scout](../keyword-scout/) | 키워드 CI/MOI/COS · `keywords/*.yaml` |
-| [clip-lens-page](../clip-lens-page/) | **이관됨** → `reference/clip-lens-sample/` |
+| [keyword-scout](file:///Users/kimdohun/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/project/archive/keyword-scout/) | 키워드 CI/MOI/COS · `keywords/*.yaml` (iCloud 아카이브) |
+| clip-lens-page | **이관됨** → `reference/clip-lens-sample/` (원본: iCloud archive) |
 
 ## 빠른 시작 (Phase 1 이후)
 
@@ -19,7 +19,7 @@ cp .env.example .env   # GEMINI_API_KEY
 
 python scripts/build_listing.py build \
   --url "https://ko.aliexpress.com/item/1005009287952594.html" \
-  --keyword-yaml ../keyword-scout/keywords/seed.yaml
+  --keyword-yaml "/Users/kimdohun/Library/Mobile Documents/com~apple~CloudDocs/Desktop/project/archive/keyword-scout/keywords/seed.yaml"
 ```
 
 ## 폴더

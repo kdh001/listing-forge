@@ -1,6 +1,6 @@
 # listing-forge — Agent rules
 
-> PRD: `PRD.md` · PLAN: `PLAN.md` · TASKS: `TASKS.md` · scout: `../keyword-scout/`
+> PRD: `PRD.md` · PLAN: `PLAN.md` · TASKS: `TASKS.md` · scout: iCloud `archive/keyword-scout/`
 
 ## 원칙
 
@@ -21,7 +21,7 @@ kickoff G-1~G-6 · feature/T-n · push 전 PROGRESS (vault `scripts/project-prog
 ```bash
 python scripts/build_listing.py build \
   --url "https://ko.aliexpress.com/item/1005009287952594.html" \
-  --keyword-yaml ../keyword-scout/keywords/seed.yaml \
+  --keyword-yaml "/Users/kimdohun/Library/Mobile Documents/com~apple~CloudDocs/Desktop/project/archive/keyword-scout/keywords/seed.yaml" \
   --platform both
 ```
 
