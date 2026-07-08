@@ -1,7 +1,7 @@
 ---
 progress_pct: 28
-updated: "2026-07-04T21:58:06+09:00"
-last_commit: "ecb7075"
+updated: "2026-07-08T13:45:20+09:00"
+last_commit: "e917c24"
 sync_source: project-progress
 ---
 # listing-forge — 진척도
@@ -14,8 +14,8 @@ sync_source: project-progress
 | 항목 | 값 |
 |------|-----|
 | **종합 진행률** | **28%** |
-| 마지막 커밋 | `ecb7075` |
-| 갱신 시각 | 2026-07-04 21:58 KST |
+| 마지막 커밋 | `e917c24` |
+| 갱신 시각 | 2026-07-08 13:45 KST |
 | 신호 | PLAN Phase 1/5 완료 |
 
 > vault `scripts/project-progress/` · `git push` 직전 pre-push 훅 갱신 · `progress_pct` frontmatter 동기화
