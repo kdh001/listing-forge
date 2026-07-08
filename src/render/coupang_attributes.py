@@ -36,6 +36,7 @@ class CoupangAttributeFiller:
       {"속성명": "프리셋", "속성값": preset},
     ]
 
+    # csv.DictWriter + utf-8-sig: Excel·쿠팡 Wing 호환 BOM CSV. Rec.Attr 속성 채움 점수(20점) 대상.
     with open(dest, "w", encoding="utf-8-sig", newline="") as f:
       writer = csv.DictWriter(f, fieldnames=["속성명", "속성값"])
       writer.writeheader()
@@ -47,6 +48,7 @@ class CoupangAttributeFiller:
     """필수 속성이 모두 채워졌는지 확인."""
     if not path.exists():
       return False
+    # csv.DictReader: attributes.csv를 읽어 REQUIRED_ATTRS 6개 속성값 존재 여부로 75점 중 20점 판정.
     with open(path, encoding="utf-8-sig") as f:
       reader = csv.DictReader(f)
       filled = {row["속성명"]: row["속성값"] for row in reader if row.get("속성값")}

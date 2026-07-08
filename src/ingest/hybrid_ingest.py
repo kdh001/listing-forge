@@ -22,6 +22,7 @@ class HybridIngest:
 
   def run(self, url: str, job_dir: Path, *, html: str | None = None) -> dict[str, Any]:
     """URL에서 이미지를 수집·다운로드·분류해 manifest dict를 반환한다."""
+    # hybrid_order: config/listing.yaml ingest.hybrid_order — 실패 시 다음 단계로 폴백 (단계 skip 금지 원칙).
     order = self.config.get("ingest", {}).get("hybrid_order", ["public_parser"])
     last_error: Exception | None = None
 
@@ -66,12 +67,14 @@ class HybridIngest:
       ext = ".png" if ".png" in durl.lower() else ".jpg"
       detail_items.append((durl, detail_dir / f"desc_{i:02d}{ext}"))
 
+    # download_many: alicdn URL 목록을 순차 GET — 실패 URL은 ok=False로 manifest에 남긴다.
     dl_gallery = self.downloader.download_many(gallery_items)
     dl_detail = self.downloader.download_many(detail_items)
 
     gallery_files = [(Path(r["file"]), r["url"]) for r in dl_gallery if r.get("ok")]
     detail_files = [(Path(r["file"]), r["url"]) for r in dl_detail if r.get("ok")]
 
+    # classify_manifest: 150KB 임계·Tier A/B 휴리스틱으로 gallery/detail/junk 분류.
     classified = self.classifier.classify_manifest(gallery_files, detail_files)
     junk: list[dict[str, Any]] = []
     gallery: list[dict[str, Any]] = []
@@ -92,6 +95,7 @@ class HybridIngest:
         junk_path = junk_dir / item.path.name
         junk_path.parent.mkdir(parents=True, exist_ok=True)
         if item.path.exists():
+          # Path.rename: junk 분류 파일을 03_related_thumbnails/로 이동한다.
           item.path.rename(junk_path)
         entry["file"] = str(junk_path.relative_to(job_dir))
         junk.append(entry)
@@ -109,6 +113,7 @@ class HybridIngest:
       "detail_page": detail_page,
       "related_thumbnails": junk,
     }
+    # json.dumps(ensure_ascii=False): 한글 title·경로를 유니코드 이스케이프 없이 manifest.json에 저장한다.
     (job_dir / "manifest.json").write_text(
       json.dumps(manifest, ensure_ascii=False, indent=2),
       encoding="utf-8",

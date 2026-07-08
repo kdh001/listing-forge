@@ -58,5 +58,6 @@ class CoupangTagGenerator:
     while len(tags) < self.TARGET_COUNT:
       tags.append(f"{seed}{len(tags)}")
 
+    # json.dumps: 쿠팡 Wing 업로드용 tags.json — 리스트 20개, ensure_ascii=False로 한글 태그 유지.
     dest.write_text(json.dumps(tags, ensure_ascii=False, indent=2), encoding="utf-8")
     return dest

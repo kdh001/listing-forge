@@ -67,6 +67,9 @@ class ImageClassifier:
   def _estimate_text_ratio(self, path: Path) -> float:
     """고대비·채도 낮은 영역 비율로 텍스트 포함 추정(경량 휴리스틱)."""
     try:
+      # Image.open: Pillow로 이미지 디코딩. with 블록으로 파일 핸들을 자동 close한다.
+      # convert("RGB"): PNG RGBA·팔레트 모드를 통일해 픽셀 샘플링 로직을 단순화한다.
+      # getdata(): (R,G,B) 튜플 flat iterator — OCR 없이 Tier B(텍스트 많은 설명컷) 여부를 추정한다.
       with Image.open(path) as img:
         rgb = img.convert("RGB")
         w, h = rgb.size

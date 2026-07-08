@@ -11,12 +11,17 @@ import yaml
 def load_listing_config(root: Path) -> dict[str, Any]:
   """config/listing.yaml 정본 설정을 읽는다."""
   path = root / "config" / "listing.yaml"
+  # yaml.safe_load: YAML을 Python dict로 파싱한다. safe_load는 임의 객체 생성(!!python)을 막아 보안상 안전하다.
+  # listing.yaml에는 ingest·coupang·naver_shopping_seo 등 파이프라인 전역 설정이 들어 있다.
+  # encoding=utf-8로 한글 키워드·면책 문구를 깨짐 없이 읽는다.
   with open(path, encoding="utf-8") as f:
     return yaml.safe_load(f)
 
 
 def load_keyword_context(keyword_yaml: Path) -> dict[str, Any]:
   """keyword-scout YAML 또는 listing 전용 YAML을 파이프라인 공통 형식으로 정규화한다."""
+  # keyword-scout batch YAML(keywords 리스트)과 listing 전용 YAML(seed 직접) 두 형식을 모두 수용한다.
+  # safe_load 실패 시 None이 올 수 있어 `or {}`로 빈 dict 폴백한다.
   with open(keyword_yaml, encoding="utf-8") as f:
     raw = yaml.safe_load(f) or {}
 

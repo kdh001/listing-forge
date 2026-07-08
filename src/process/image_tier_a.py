@@ -24,8 +24,11 @@ class TierAProcessor:
     with Image.open(src) as img:
       rgb = img.convert("RGB")
       if rgb.width != width:
+        # Image.resize + LANCZOS: 고품질 다운샘플링. 쿠팡 1720px·네이버 860px 규격에 맞춘다.
+        # 비율 유지: height = width * (원본비) — 왜곡 없이 가로 기준 맞춤.
         ratio = width / rgb.width
         new_h = max(1, int(rgb.height * ratio))
         rgb = rgb.resize((width, new_h), Image.Resampling.LANCZOS)
+      # save(format=JPEG, optimize=True): 쿠팡·네이버 업로드용 JPG. quality는 config jpeg_quality.
       rgb.save(dest, format="JPEG", quality=self.jpeg_quality, optimize=True)
     return dest

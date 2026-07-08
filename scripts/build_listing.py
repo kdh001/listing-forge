@@ -7,6 +7,9 @@ import argparse
 import sys
 from pathlib import Path
 
+# Path(__file__).resolve().parents[1]: scripts/의 상위 = 프로젝트 루트(listing-forge).
+# sys.path.insert: `from src.pipeline` import 시 src 패키지를 찾을 수 있게 PYTHONPATH를 런타임에 추가한다.
+# CLI는 패키지 설치(pip install -e .) 없이도 `python scripts/build_listing.py`로 바로 실행 가능해야 한다.
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
@@ -14,6 +17,9 @@ from src.pipeline import ListingPipeline  # noqa: E402
 
 
 def main() -> int:
+  # argparse.ArgumentParser: ingest/build 서브커맨드 CLI를 선언적으로 정의한다.
+  # add_subparsers(dest="cmd"): 첫 번째 인자로 하위 명령(ingest|build)을 분기한다.
+  # parse_args(): sys.argv를 파싱해 Namespace 객체로 반환 — 미지정 required 인자 시 SystemExit(2).
   parser = argparse.ArgumentParser(description="listing-forge — 소싱 URL → 쿠팡/네이버 산출물")
   sub = parser.add_subparsers(dest="cmd", required=True)
 
@@ -29,6 +35,8 @@ def main() -> int:
   build.add_argument("--max-detail-images", type=int, default=15)
 
   args = parser.parse_args()
+  # ListingPipeline: ingest→process→render→score 오케스트레이션 진입점.
+  # root=ROOT로 config/listing.yaml·templates/ 경로 기준을 프로젝트 루트에 고정한다.
   pipe = ListingPipeline(root=ROOT)
 
   if args.cmd == "ingest":
@@ -51,4 +59,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+  # SystemExit(main()): 종료 코드(0=성공)를 셸에 반환한다. raise로 호출해 finally 블록도 정상 실행된다.
   raise SystemExit(main())

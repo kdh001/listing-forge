@@ -17,6 +17,9 @@ class DetailHtmlRenderer:
     self.root = root
     self.config = config or {}
     self.seo = NaverShoppingSeoRules(self.config)
+    # Jinja2 Environment: templates/ 디렉터리에서 .j2 파일을 로드해 HTML 문자열을 생성한다.
+    # FileSystemLoader: marketplace_detail.j2 등 템플릿 파일 경로 기준.
+    # select_autoescape(["html","xml"]): XSS 방지용 자동 이스케이프 — |safe 필터 사용 구간은 예외.
     self.env = Environment(
       loader=FileSystemLoader(root / "templates"),
       autoescape=select_autoescape(["html", "xml"]),
@@ -35,6 +38,7 @@ class DetailHtmlRenderer:
   def render_placeholder(self, ctx: dict[str, Any], image_slots: list[dict[str, str]]) -> str:
     """점선 박스 placeholder HTML — SEO 체크리스트 포함."""
     tpl = self.env.get_template(self.template_name)
+    # tpl.render: Jinja2 변수 치환 → 최종 HTML str. mode=placeholder면 점선 박스·체크리스트 출력.
     return tpl.render(mode="placeholder", image_slots=image_slots, **self._base_ctx(ctx))
 
   def render_final(self, ctx: dict[str, Any], image_slots: list[dict[str, str]]) -> str:

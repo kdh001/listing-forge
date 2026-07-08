@@ -18,6 +18,7 @@ def test_manual_drop_manifest(config, tmp_path, sample_jpg, white_bg_jpg):
 
   job = tmp_path / "job"
   job.mkdir()
+  # ManualDrop.load: hybrid 최종 폴백 — 로컬 폴더 → manifest.json (gallery 6장).
   manifest = ManualDrop(config).load(job, manual_dir=drop)
   assert manifest["summary"]["gallery"] == 6
   assert (job / "manifest.json").exists()
@@ -30,6 +31,7 @@ def test_build_with_manual_dir(root, keyword_yaml, tmp_path, sample_jpg, white_b
   for i in range(8):
     shutil.copy(images[i % 2], drop / f"p_{i:02d}.jpg")
 
+  # ListingPipeline.build(manual_dir=): URL 없이 E2E — ingest→render→score 전 단계 검증.
   pipe = ListingPipeline(root=root)
   out = pipe.build(
     url=None,

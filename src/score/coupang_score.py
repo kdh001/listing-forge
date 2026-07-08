@@ -45,6 +45,7 @@ class CoupangScoreChecker:
     tags_path = job_dir / "coupang_meta" / "tags.json"
     tag_count = 0
     if tags_path.exists():
+      # json.loads: tags.json 배열 길이 == 20 이면 tags_count_20 항목 20점 획득.
       tag_count = len(json.loads(tags_path.read_text(encoding="utf-8")))
     tags_ok = tag_count == 20
     breakdown["tags_count_20"] = {

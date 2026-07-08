@@ -10,7 +10,7 @@ import re
 from typing import Any
 
 
-# 상품명·훅 문구에 넣으면 안 되는 판매/홍보 키워드 (어뷰징·신뢰도 감점)
+# re.compile: 홍보·할인 키워드를 한 번 컴파일해 sanitize_title/hook에서 재사용한다 (어뷰징 패턴).
 _BANNED_PROMO_RE = re.compile(
   r"무료배송|당일발송|빠른배송|특가|할인|세일|최저가|1위|인기|가성비|"
   r"긴급|한정|품절|이벤트|사은품|무이자|적립|쿠폰|MD추천|정품|공식|"
@@ -41,6 +41,7 @@ class NaverShoppingSeoRules:
     """상품명 SEO — 중복·홍보·특수문자 제거, 길이 제한."""
     limit = max_chars if max_chars is not None else self.title_max_chars
     cleaned = text.strip()
+    # re.sub: _FORBIDDEN_SPECIAL_RE·_BANNED_PROMO_RE로 네이버 SEO 위반 문자·홍보어를 제거한다.
     cleaned = _FORBIDDEN_SPECIAL_RE.sub("", cleaned)
     cleaned = _BANNED_PROMO_RE.sub("", cleaned)
     for word in self.banned_promo_words:

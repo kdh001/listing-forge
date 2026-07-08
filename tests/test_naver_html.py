@@ -7,6 +7,7 @@ from src.render.seo_rules import NaverShoppingSeoRules
 
 
 def test_sanitize_title_removes_promo(config):
+  # re.compile _BANNED_PROMO_RE: 홍보어·중복 단어 제거 후 어뷰징 패턴 미포함 확인.
   seo = NaverShoppingSeoRules(config)
   title = seo.sanitize_title("무료배송 특가 1위 클립렌즈 클립렌즈")
   assert "무료배송" not in title
@@ -22,6 +23,7 @@ def test_build_listing_title_includes_related(config):
 
 
 def test_placeholder_contains_seo_checklist(root, config):
+  # DetailHtmlRenderer + Jinja2: mode=placeholder → SEO 체크리스트·점선 박스 HTML.
   renderer = DetailHtmlRenderer(root, config)
   slots = renderer.default_image_slots("3in1클립렌즈")
   html = renderer.render_placeholder(
@@ -42,6 +44,7 @@ def test_placeholder_contains_seo_checklist(root, config):
 def test_final_contains_img_and_alt(root, config):
   renderer = DetailHtmlRenderer(root, config)
   slots = renderer.default_image_slots("test")
+  # render_final: figure/img + alt(상품명+캡션) — 네이버 SEO 이미지 가이드 반영.
   html = renderer.render_final(
     {"product_title": "클립렌즈", "hook_line": "h", "section_title": "s", "section_body": "b", "risk_disclaimer": ""},
     slots,

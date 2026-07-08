@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +36,7 @@ class CoupangExporter:
       else:
         name = f"{i + 1:02d}_sub_{slug}_{i}.jpg"
       dest = coupang_dir / name
+      # TierAProcessor.process_to_jpg: 1720px LANCZOS 리사이즈 — 쿠팡 대표/추가 JPG 규격.
       self.tier_a.process_to_jpg(src, dest)
       exported.append(dest)
 
@@ -52,6 +52,7 @@ class CoupangExporter:
   ) -> list[Path]:
     """detail_page Tier A 이미지로 추가 이미지를 채운다."""
     coupang_dir = job_dir / "coupang"
+    # Path.glob("*.jpg"): 기존 coupang JPG 개수로 min_additional(5)+대표1 장 충족 여부 판단.
     existing = sorted(coupang_dir.glob("*.jpg"))
     need = max(0, min_count + 1 - len(existing))
     if need <= 0:

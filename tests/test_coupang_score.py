@@ -28,6 +28,7 @@ def test_score_passes_with_full_artifacts(config, keyword_yaml, tmp_path, sample
   job.mkdir()
   _setup_coupang_job(job, config, kw, sample_jpg)
 
+  # CoupangScoreChecker.score: tags 20·이미지 6·속성 CSV → 75점 중 자동 채점 항목 검증.
   checker = CoupangScoreChecker(config)
   result = checker.score(job, kw)
   assert result["total"] >= 60

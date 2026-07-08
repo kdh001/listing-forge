@@ -6,6 +6,7 @@ from src.ingest.public_parser import PublicParser
 
 
 def test_extract_gallery_urls_parity(config, aliexpress_html, parity_manifest):
+  # PublicParser.fetch(html=): 네트워크 없이 fixture HTML로 runParams·og:image 파싱 검증.
   parser = PublicParser(config)
   meta = parser.fetch("https://ko.aliexpress.com/item/1005009287952594.html", html=aliexpress_html)
 
@@ -15,6 +16,7 @@ def test_extract_gallery_urls_parity(config, aliexpress_html, parity_manifest):
 
 
 def test_title_from_og(config, aliexpress_html):
+  # BeautifulSoup og:title — JS 렌더 없이 메타 태그에서 제목 추출 확인.
   parser = PublicParser(config)
   meta = parser.fetch("https://example.com/item/1.html", html=aliexpress_html)
   assert "3 in 1" in meta["title"]

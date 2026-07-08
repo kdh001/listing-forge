@@ -15,6 +15,7 @@ class CsvMetaWriter:
   def write(self, dest: Path, rows: list[dict[str, Any]]) -> Path:
     """rows를 CSV로 저장한다."""
     dest.parent.mkdir(parents=True, exist_ok=True)
+    # csv.DictWriter: clip-lens-sample CSV 스키마와 동일한 7컬럼. utf-8-sig는 Excel 한글 호환 BOM.
     with open(dest, "w", encoding="utf-8-sig", newline="") as f:
       writer = csv.DictWriter(f, fieldnames=self.HEADERS)
       writer.writeheader()

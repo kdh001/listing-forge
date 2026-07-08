@@ -12,6 +12,7 @@ from src.render.coupang_tags import CoupangTagGenerator
 
 def test_coupang_title_max_20_chars(config, keyword_yaml):
   kw = load_keyword_context(keyword_yaml)
+  # Copywriter.coupang_title: NaverShoppingSeoRules + title_max_chars(20) 제한.
   cw = Copywriter(config, GeminiClient(config))
   title = cw.coupang_title("아주아주아주긴상품명테스트용키워드")
   assert len(title) <= 20
@@ -23,5 +24,6 @@ def test_tags_count_20(config, keyword_yaml, tmp_path):
   job.mkdir()
   gen = CoupangTagGenerator(config, GeminiClient(config))
   path = gen.generate(job, kw)
+  # json.loads: tags.json 배열 길이 == TARGET_COUNT(20) — 쿠팡 점수제 필수 조건.
   tags = json.loads(path.read_text(encoding="utf-8"))
   assert len(tags) == 20

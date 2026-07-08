@@ -18,6 +18,9 @@ class GeminiClient:
     self._model = None
     if self.api_key:
       try:
+        # google.generativeai: Google Gemini REST SDK. configure()로 API 키를 전역 설정한다.
+        # GenerativeModel(text_model): config/listing.yaml gemini.text_model — 카피·태그 텍스트 생성용.
+        # import 실패·키 오류 시 _model=None → available=False로 템플릿 폴백(파이프라인 중단 없음).
         import google.generativeai as genai
 
         genai.configure(api_key=self.api_key)
@@ -35,6 +38,8 @@ class GeminiClient:
     if not self._model:
       return ""
     try:
+      # generate_content: 단일 turn 프롬프트 → resp.text 문자열. Tier B 카피·쿠팡 태그 보강에 사용.
+      # resp.text or "": safety block·빈 응답 시 빈 문자열 — Copywriter가 템플릿 본문만 사용한다.
       resp = self._model.generate_content(prompt)
       return (resp.text or "").strip()
     except Exception:  # noqa: BLE001

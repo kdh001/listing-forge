@@ -31,6 +31,7 @@ class ManualDrop:
     gallery_dir.mkdir(parents=True, exist_ok=True)
     detail_dir.mkdir(parents=True, exist_ok=True)
 
+    # Path.iterdir + suffix 필터: 드롭 폴더 내 지원 확장자 이미지만 정렬해 gallery/detail로 분배한다.
     files = sorted(p for p in drop_dir.iterdir() if p.suffix.lower() in self.SUPPORTED)
     if not files:
       raise ValueError(f"manual_drop에 이미지 없음: {drop_dir}")
@@ -41,6 +42,7 @@ class ManualDrop:
     for i, src in enumerate(files):
       if i < 6:
         dest = gallery_dir / f"gallery_{i + 1:02d}{src.suffix.lower()}"
+        # shutil.copy2: 메타데이터(mtime)까지 보존하며 gallery 슬롯에 복사한다.
         shutil.copy2(src, dest)
         gallery_files.append((dest, ""))
       else:

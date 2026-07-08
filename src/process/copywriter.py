@@ -14,6 +14,7 @@ class Copywriter:
   def __init__(self, config: dict[str, Any], gemini: GeminiClient) -> None:
     self.config = config
     self.gemini = gemini
+    # NaverShoppingSeoRules: FAQ H00015 기반 상품명·훅 정규화 — 홍보어·중복 키워드 제거.
     self.seo = NaverShoppingSeoRules(config)
     title_max = config.get("coupang", {}).get("ranking_score", {}).get("title_max_chars", 20)
     self.title_max_chars = int(title_max)
@@ -24,6 +25,7 @@ class Copywriter:
     related = keyword_ctx.get("related") or []
     related_str = ", ".join(related[:5]) if related else seed
 
+    # build_listing_title: seed + related 1~2개 → 네이버 적합도 TIP 반영 상품명.
     listing_title = self.seo.build_listing_title(seed, related)
     hook = self.seo.sanitize_hook(f"{seed}로 일상 촬영의 폭을 넓혀보세요.")
     section_title = f"왜 {seed}인가요?"
@@ -38,6 +40,7 @@ class Copywriter:
         f"키워드: {seed}, 연관: {related_str}. "
         f"{self.seo.llm_copy_constraints()}"
       )
+      # generate_text: Gemini가 SEO 제약을 포함한 프롬프트로 본문 2문장을 보강한다.
       extra = self.gemini.generate_text(prompt)
       if extra:
         section_body += f"<br><br>{extra}"

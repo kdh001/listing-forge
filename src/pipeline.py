@@ -36,6 +36,7 @@ class ListingPipeline:
     return load_listing_config(self.root)
 
   def _job_dir(self, slug: str) -> Path:
+    # datetime.now().strftime: output/{slug}_{YYYYMMDD}/ 일별 job 폴더 — 재실행 시 날짜로 구분.
     stamp = datetime.now().strftime("%Y%m%d")
     safe = "".join(c for c in slug if c.isalnum() or c in "-_")[:32] or "product"
     out = self.root / "output" / f"{safe}_{stamp}"
@@ -47,6 +48,7 @@ class ListingPipeline:
     cfg = self._load_config()
     job = out_dir or self._job_dir("ingest")
     job.mkdir(parents=True, exist_ok=True)
+    # HybridIngest.run: public_parser → playwright → manual_drop 순 폴백으로 manifest.json 생성.
     HybridIngest(cfg).run(url, job, html=html)
     return job
 
@@ -65,6 +67,7 @@ class ListingPipeline:
     if max_detail_images:
       cfg.setdefault("ingest", {})["max_detail_images"] = max_detail_images
 
+    # load_keyword_context: keyword-scout YAML → seed/related/risk/listing 정규 dict.
     kw_ctx = load_keyword_context(keyword_yaml)
     slug = kw_ctx["seed"].replace(" ", "")[:32]
     job = self._job_dir(slug)
@@ -81,6 +84,7 @@ class ListingPipeline:
     manifest: dict[str, Any] | None = None
     if url:
       self.ingest(url, out_dir=job, html=html)
+      # json.loads: hybrid ingest가 쓴 manifest.json을 파이프라인 후속 단계에 전달한다.
       manifest = json.loads((job / "manifest.json").read_text(encoding="utf-8"))
     elif manual_dir:
       manifest = ManualDrop(cfg).load(job, manual_dir=manual_dir)
@@ -97,6 +101,7 @@ class ListingPipeline:
     if platform in ("both", "coupang"):
       self._build_coupang(job, kw_ctx, copy_ctx, manifest, cfg, gemini)
 
+    # _build_detail_html: 쿠팡·네이버 동일 detail_placeholders/final HTML (Jinja2 + SEO).
     self._build_detail_html(job, copy_ctx, kw_ctx, cfg, platform)
 
     (job / "README.txt").write_text(
@@ -129,6 +134,7 @@ class ListingPipeline:
         src = job / gallery[i]["file"]
         dest = store_dir / slot["filename"]
         if src.exists():
+          # TierAProcessor: 네이버 860px JPG — naver-store-images/ + CSV 바이트 컬럼.
           tier_a.process_to_jpg(src, dest, target_width=int(cfg.get("output", {}).get("naver_max_width_px", 860)))
           file_sizes[slot["filename"]] = dest.stat().st_size
 
@@ -193,6 +199,7 @@ class ListingPipeline:
       tmp = main.with_suffix(".norm.jpg")
       report = normalizer.normalize_main_image(main, tmp)
       if tmp.exists():
+        # shutil.move: 정규화된 JPG를 01_main_*.jpg 위치로 원자적 교체.
         shutil.move(str(tmp), str(main))
       normalizer.write_report(job, [report])
 

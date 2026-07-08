@@ -61,8 +61,10 @@ class BackgroundNormalizer:
   def _white_ratio(self, path: Path) -> float:
     """이미지 테두리 픽셀 중 흰색(≥240) 비율."""
     with Image.open(path) as img:
+      # np.array(img.convert("RGB")): Pillow → NumPy (H,W,3) ndarray — 벡터 연산으로 테두리 샘플링.
       rgb = np.array(img.convert("RGB"))
     h, w, _ = rgb.shape
+    # np.concatenate: 상·하·좌·우 테두리 픽셀만 추출해 쿠팡 min_white_ratio 판정에 사용한다.
     border = np.concatenate([rgb[0, :, :], rgb[-1, :, :], rgb[:, 0, :], rgb[:, -1, :]], axis=0)
     white = np.all(border >= 240, axis=1)
     return float(white.mean()) if len(white) else 0.0
@@ -70,6 +72,8 @@ class BackgroundNormalizer:
   def _try_rembg(self, src: Path, dest: Path) -> bool:
     """rembg로 누끼 → 흰 캔버스 합성. 미설치·onnxruntime 없으면 simple composite."""
     try:
+      # rembg.remove: U²-Net ONNX 세그멘테이션으로 배경 제거 → RGBA PNG bytes 반환.
+      # ImportError/SystemExit: rembg·onnxruntime 미설치 시 simple composite 폴백으로 degrade.
       from rembg import remove
     except (ImportError, SystemExit):
       return self._try_simple_white_composite(src, dest)
@@ -78,6 +82,7 @@ class BackgroundNormalizer:
       raw = src.read_bytes()
       cutout = remove(raw)
       with Image.open(BytesIO(cutout)).convert("RGBA") as fg:
+        # Image.new + paste(..., mask=fg): 알파 채널을 마스크로 흰 캔vas에 제품만 합성한다.
         canvas = Image.new("RGBA", fg.size, self.white_hex)
         canvas.paste(fg, (0, 0), fg)
         canvas.convert("RGB").save(dest, format="JPEG", quality=92)
