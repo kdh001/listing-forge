@@ -52,6 +52,44 @@ class ListingPipeline:
     HybridIngest(cfg).run(url, job, html=html)
     return job
 
+  def fetch_tariff_hint(
+    self,
+    sku_text: str,
+    *,
+    out_dir: Path | None = None,
+    mode: str | None = None,
+  ) -> dict[str, Any]:
+    """ecommerce-tariff-rag에서 HS 힌트를 받아 dict로 반환(선택적으로 JSON 저장).
+
+    build와 분리 — 기본 빌드를 막지 않는다. usable이 아니면 자동 기입하지 말 것.
+    """
+    cfg = self._load_config()
+    tcfg = cfg.get("tariff_rag") or {}
+    # TariffRagClient: HTTP→subprocess→json 폴백으로 tariff-hint-v1을 가져온다.
+    # listing-forge는 소비자만 — corpus/인덱스는 tariff-rag 레포가 소유한다.
+    # 실패 시 TariffHintError를 그대로 올려 CLI가 non-zero로 종료하게 한다.
+    from src.integrations.tariff_rag_client import TariffRagClient
+
+    client = TariffRagClient(
+      base_url=str(tcfg.get("base_url") or "http://127.0.0.1:8787"),
+      cli_bin=str(tcfg.get("cli_bin") or "tariff-rag"),
+    )
+    use_mode = mode or str(tcfg.get("mode") or "auto")
+    hint = client.hint(sku_text, mode=use_mode)  # type: ignore[arg-type]
+    payload = {
+      **hint.raw,
+      "_listing_forge": {
+        "mode_used": hint.mode_used,
+        "usable_for_auto_fill": hint.usable_for_auto_fill,
+      },
+    }
+    if out_dir is not None:
+      out_dir.mkdir(parents=True, exist_ok=True)
+      path = out_dir / "tariff_hint.json"
+      # json.dumps: job 폴더에 힌트를 남겨 쿠팡/네이버 메타 작성 시 참고한다.
+      path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return payload
+
   def build(
     self,
     *,

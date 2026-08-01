@@ -25,6 +25,13 @@ python scripts/build_listing.py build \
   --platform both
 ```
 
+## ecommerce-tariff-rag HS 힌트
+
+- 클라이언트: `src/integrations/tariff_rag_client.py`
+- CLI: `scripts/tariff_hint.py` · `build_listing.py tariff-hint`
+- 가이드: `integrations/ecommerce-tariff-rag.md`
+- 면책·`status!=ok`이면 HS/세율 자동 기입 금지
+
 ## Parity 테스트 URL
 
 `config/listing.yaml` → `reference.clip_lens_sample.parity_test_url`

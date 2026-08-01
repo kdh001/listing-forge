@@ -7,7 +7,16 @@
 | 프로젝트 | 역할 |
 |----------|------|
 | [keyword-scout](file:///Users/kimdohun/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/project/archive/keyword-scout/) | 키워드 CI/MOI/COS · `keywords/*.yaml` (iCloud 아카이브) |
+| [ecommerce-tariff-rag](../ecommerce-tariff-rag/) | 관세청 스냅샷 HS/관세율 힌트 — `scripts/tariff_hint.py` · `integrations/ecommerce-tariff-rag.md` |
 | clip-lens-page | **이관됨** → `reference/clip-lens-sample/` (원본: iCloud archive) |
+
+### HS 힌트 (tariff-rag)
+
+```bash
+# 다른 터미널: tariff-rag serve --port 8787
+python scripts/tariff_hint.py --sku "리튬 보조배터리 10000mAh"
+python scripts/build_listing.py tariff-hint --sku "리튬 보조배터리 10000mAh"
+```
 
 ## 빠른 시작 (Phase 1 이후)
 

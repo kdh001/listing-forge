@@ -81,6 +81,13 @@ marketplace_detail_html:
   image_store_dir: "naver-store-images"
   output_dirs: [naver, coupang]
 
+# ecommerce-tariff-rag HS 힌트 (로컬 serve / CLI). 자동 기입 금지 — usable일 때만 참고.
+tariff_rag:
+  enabled: false
+  base_url: "http://127.0.0.1:8787"
+  mode: "auto"   # auto | http | subprocess | json
+  cli_bin: "tariff-rag"
+
 reference:
   clip_lens_sample: "./reference/clip-lens-sample"
   parity_test_url: "https://ko.aliexpress.com/item/1005009287952594.html"

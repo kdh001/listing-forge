@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -34,6 +35,16 @@ def main() -> int:
   build.add_argument("--platform", choices=["both", "coupang", "naver"], default="both")
   build.add_argument("--max-detail-images", type=int, default=15)
 
+  # tariff-hint: ecommerce-tariff-rag 로컬 힌트 (build와 독립)
+  th = sub.add_parser("tariff-hint", help="ecommerce-tariff-rag HS 힌트 조회")
+  th.add_argument("--sku", required=True, help="상품명/SKU 텍스트")
+  th.add_argument("--out", type=Path, default=None, help="tariff_hint.json 저장 폴더")
+  th.add_argument(
+    "--mode",
+    choices=["auto", "http", "subprocess", "json"],
+    default=None,
+  )
+
   args = parser.parse_args()
   # ListingPipeline: ingest→process→render→score 오케스트레이션 진입점.
   # root=ROOT로 config/listing.yaml·templates/ 경로 기준을 프로젝트 루트에 고정한다.
@@ -53,6 +64,12 @@ def main() -> int:
       max_detail_images=args.max_detail_images,
     )
     print(f"build → {out}")
+    return 0
+
+  if args.cmd == "tariff-hint":
+    # fetch_tariff_hint: HTTP/CLI로 tariff-hint-v1을 가져와 선택 저장한다.
+    payload = pipe.fetch_tariff_hint(args.sku, out_dir=args.out, mode=args.mode)
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0
 
   return 2
