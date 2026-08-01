@@ -1,7 +1,7 @@
 ---
 progress_pct: 28
-updated: "2026-08-02T01:12:01+09:00"
-last_commit: "903a5f3"
+updated: "2026-08-02T01:12:10+09:00"
+last_commit: "fc22afe"
 sync_source: project-progress
 ---
 # listing-forge — 진척도
@@ -14,7 +14,7 @@ sync_source: project-progress
 | 항목 | 값 |
 |------|-----|
 | **종합 진행률** | **28%** |
-| 마지막 커밋 | `903a5f3` |
+| 마지막 커밋 | `fc22afe` |
 | 갱신 시각 | 2026-08-02 01:12 KST |
 | 신호 | PLAN Phase 1/5 완료 |
 
